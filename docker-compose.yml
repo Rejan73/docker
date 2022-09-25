@@ -1,6 +1,20 @@
-version:"3.3"
+version: '3.3'
 
 services:
+  domoticz:
+    image: domoticz/domoticz
+    container_name: domoticz
+    restart: unless-stopped
+    # Pass devices to container
+    # devices:
+    #   - "/dev/serial/by-id/usb-0658_0200-if00:/dev/ttyACM0"
+    ports:
+      - "8080:8080"
+    volumes:
+      - /home/rod/domoticz/userdata:/opt/domoticz/userdata
+    environment:
+      - TZ=Europe/Paris
+      #- LOG_PATH=/opt/domoticz/userdata/domoticz.log
   motioneye:
     container_name: motioneye
     image: ccrisan/motioneye:master-amd64
@@ -12,13 +26,3 @@ services:
     ports:
     - 8765:8765
     - 18081:8081
-
-  domoticz:
-    container_name: domoticz
-    image: domoticz:domoticz
-    restart: unless-stopped
-    volumes:
-    - /home/rod/domoticz/userdata:/opt/domoticz/userdata
-    ports:
-    - 8080:8080
-
